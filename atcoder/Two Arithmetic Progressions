@@ -1,0 +1,36 @@
+from math import gcd
+
+def extended_gcd(a, b):
+    if b == 0:
+        return a, 1, 0
+    g, x1, y1 = extended_gcd(b, a % b)
+    return g, y1, x1 - (a // b) * y1
+
+def solve(a1, d1, a2, d2):
+    diff = a2 - a1
+    g = gcd(d1, d2)
+
+    if diff % g != 0:
+        return []
+
+    d1 //= g
+    d2 //= g
+    diff //= g
+
+    _, x, y = extended_gcd(d1, -d2)
+    x *= diff
+    lcm = d1 * d2 * g
+
+    first = a1 + d1 * x * g
+
+    return first, lcm
+
+a1, d1 = map(int, input().split())
+a2, d2 = map(int, input().split())
+
+ans = solve(a1, d1, a2, d2)
+
+if not ans:
+    print(0)
+else:
+    print(ans[0], ans[1])
