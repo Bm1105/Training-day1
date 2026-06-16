@@ -1,0 +1,30 @@
+import sys
+sys.setrecursionlimit(10**7)
+
+def dfs(u, p, adj, sz, good):
+    sz[u] = 1
+
+    for v in adj[u]:
+        if v != p:
+            dfs(v, u, adj, sz, good)
+            sz[u] += sz[v]
+
+    if sz[u] % 2 == 0:
+        good[0] = True
+
+n = int(input())
+adj = [[] for _ in range(n)]
+
+for _ in range(n - 1):
+    u, v = map(int, input().split())
+    u -= 1
+    v -= 1
+    adj[u].append(v)
+    adj[v].append(u)
+
+sz = [0] * n
+good = [False]
+
+dfs(0, -1, adj, sz, good)
+
+print("Yes" if good[0] else "No")
