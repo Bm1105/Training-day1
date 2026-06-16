@@ -1,0 +1,15 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def isBST(root, min_val=float('-inf'), max_val=float('inf')):
+    if not root:
+        return True
+
+    if not (min_val < root.data < max_val):
+        return False
+
+    return (isBST(root.left, min_val, root.data) and
+            isBST(root.right, root.data, max_val))
