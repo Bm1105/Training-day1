@@ -1,0 +1,11 @@
+n = int(input())
+
+rem = 0
+k = 0
+
+while True:
+    k += 1
+    rem = (rem * 10 + 1) % n
+    if rem == 0:
+        print("1" * k)
+        break
