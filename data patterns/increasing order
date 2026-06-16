@@ -1,0 +1,11 @@
+n = int(input())
+for _ in range(n):
+    line = input()
+    freq = {}
+    for ch in line:
+        if ch.isalpha():
+            freq[ch] = freq.get(ch, 0) + 1
+    m = max(freq.values())
+    ans = [ch for ch in freq if freq[ch] == m]
+    ans.sort(key=lambda x: (x.islower(), x))
+    print("".join(ans))
