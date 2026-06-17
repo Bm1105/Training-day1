@@ -1,0 +1,38 @@
+n = int(input("Enter the no. of stones:"))
+res = []
+for i in range(n):
+    h = int(input("Enter the height: "))
+    res.append(h)
+
+all_paths = []
+
+def explore(current_stone, current_path, total_cost):
+    if current_stone == n:
+        all_paths.append((list(current_path), total_cost))
+        return
+
+    if current_stone + 1 <= n:
+        next_stone = current_stone + 1
+        jump_cost = abs(res[next_stone - 1] - res[current_stone - 1])
+       
+        current_path.append(next_stone)
+        explore(next_stone, current_path, total_cost + jump_cost)
+        current_path.pop()  
+
+    if current_stone + 2 <= n:
+        next_stone = current_stone + 2
+        jump_cost = abs(res[next_stone - 1] - res[current_stone - 1])
+       
+        current_path.append(next_stone)
+        explore(next_stone, current_path, total_cost + jump_cost)
+        current_path.pop()  
+
+explore(1, [1], 0)
+min_cost = float('inf')
+
+for path, cost in all_paths:
+    print(f"Path: {path} | Distance/Cost: {cost}")
+    if cost < min_cost:
+        min_cost = cost
+
+print(f"\nMinimum total cost found from paths: {min_cost}")
