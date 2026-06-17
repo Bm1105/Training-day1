@@ -1,0 +1,113 @@
+Malini B <malinibalraj1105_bcs27@mepcoeng.ac.in>
+	
+Jun 16, 2026, 4:09 PM (17 hours ago)
+	
+	
+to me
+check good integer...
+
+class Solution(object):
+    def checkGoodInteger(self, n):
+        """
+        :type n: int
+        :rtype: bool
+        """
+        digit_sum = 0
+        square_sum = 0
+        while n > 0:
+            digit = n % 10
+            digit_sum += digit
+            square_sum += digit * digit
+            n //= 10
+        return (square_sum - digit_sum) >= 50
+
+
+
+Frequency Balance Subarray
+
+class Solution:
+    def getLength(self, nums):
+        n = len(nums)
+        max_length = 1  
+        
+        for i in range(n):
+            freq = {}      
+            freq_count = {} 
+            
+            for j in range(i, n):
+                val = nums[j]
+                if val in freq:
+                    old_f = freq[val]
+                    freq_count[old_f] -= 1
+                    if freq_count[old_f] == 0:
+                        del freq_count[old_f]
+                        
+                freq[val] = freq.get(val, 0) + 1
+                new_f = freq[val]
+                freq_count[new_f] = freq_count.get(new_f, 0) + 1
+                if len(freq_count) == 1:
+                    max_length = max(max_length, j - i + 1)
+                elif len(freq_count) == 2:
+                    f1, f2 = freq_count.keys()
+                    if f1 == 2 * f2 or f2 == 2 * f1:
+                        max_length = max(max_length, j - i + 1)
+                        
+        return max_length
+
+
+Maximize Sum of Device Ratings
+
+class Solution:
+    def maxRatings(self, units):
+        if len(units[0]) == 1:
+            return sum(unit[0] for unit in units)
+        total_second_min_sum = 0
+        mn = float('inf')   
+        mn2 = float('inf')  
+        for unit in units:
+            unit.sort()
+            current_min = unit[0]
+            second_min = unit[1]
+            total_second_min_sum += second_min
+            mn = min(mn, current_min)
+            mn2 = min(mn2, second_min)
+        return total_second_min_sum - mn2 + mn
+
+
+
+Maximum Subarray Sum After at Most K Swaps
+
+class Solution:
+    def maxSum(self, nums, k):
+        n = len(nums)
+        ans = float('-inf')
+        for i in range(n):
+            inside = []
+            current_window_sum = 0
+            outside_counts = {}
+            for idx in range(n):
+                if idx < i:
+                    outside_counts[nums[idx]] = outside_counts.get(nums[idx], 0) + 1    
+            for idx in range(i, n):
+                outside_counts[nums[idx]] = outside_counts.get(nums[idx], 0) + 1
+            for j in range(i, n):
+                val = nums[j]
+                inside.append(val)
+                current_window_sum += val
+                outside_counts[val] -= 1
+                if outside_counts[val] == 0:
+                    del outside_counts[val]
+                in_sorted = sorted(inside)[:k]
+                out_candidates = []
+                for num, count in outside_counts.items():
+                    out_candidates.extend([num] * min(count, k))
+                out_sorted = sorted(out_candidates, reverse=True)[:k]
+                temp_sum = current_window_sum
+                swaps_possible = min(k, len(in_sorted), len(out_sorted))
+                for swap_idx in range(swaps_possible):
+                    if out_sorted[swap_idx] > in_sorted[swap_idx]:
+                        temp_sum += (out_sorted[swap_idx] - in_sorted[swap_idx])
+                    else:
+                        break                        
+                ans = max(ans, temp_sum)     
+        return ans
