@@ -1,0 +1,31 @@
+def max_sum_submatrix(matrix) -> int:
+    R = len(matrix)
+    C = len(matrix[0])
+    max_sum = float('-inf')
+    
+    for top in range(R):
+        col_sums = [0] * C
+        for bottom in range(top, R):
+            for c in range(C):
+                col_sums[c] += matrix[bottom][c]
+            
+            current_max = col_sums[0]
+            global_max = col_sums[0]
+            for i in range(1, C):
+                current_max = max(col_sums[i], current_max + col_sums[i])
+                global_max = max(global_max, current_max)
+            
+            max_sum = max(max_sum, global_max)
+            
+    return max_sum
+
+M1 = [
+    [1, 2, -1, -4, -20],
+    [-8, -3, 4, 2, 1],
+    [3, 8, 10, 1, 3],
+    [-4, -1, 1, 7, -6]
+]
+print(max_sum_submatrix(M1))
+
+M2 = [[-1, -2], [-3, -4]]
+print(max_sum_submatrix(M2))
