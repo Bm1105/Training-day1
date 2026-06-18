@@ -1,0 +1,25 @@
+import sys
+
+def solve():
+    S = sys.stdin.read().strip()
+    reversed_S = S[::-1]
+    patterns = ["maerd", "remaerd", "esare", "resare"]
+    
+    i = 0
+    n = len(reversed_S)
+    
+    while i < n:
+        matched = False
+        for p in patterns:
+            if reversed_S.startswith(p, i):
+                i += len(p)
+                matched = True
+                break
+        if not matched:
+            print("NO")
+            return
+            
+    print("YES")
+
+if __name__ == '__main__':
+    solve()
